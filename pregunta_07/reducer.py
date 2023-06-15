@@ -2,41 +2,17 @@
 # >>> Escriba el codigo del reducer a partir de este punto <<<
 #
 import sys
+
 if __name__ == '__main__':
-
-    curkey = None
-    max = 0
-    min = 1000
-    
-    # cada linea de texto recibida es una entrada clave \tabulador valor
-    
+    list_of_lists = []
     for line in sys.stdin:
-
-        key, val = line.split("\t")
-        val = float(val)
-        
-        if key == curkey:
-            #
-            # No se ha cambiado de clave. Aca se acumulan los valores para la misma
-            # clave.
-            #
-            if val > max:
-             max = val
-            if val < min:
-                 min = val
-        else:
-            #
-            # Se cambio de clave. Se reinicia el acumulador.
-            #
-            if curkey is not None:
-                #
-                # una vez se han reducido todos los elementos
-                # con la misma clave se imprime el resultado en
-                # el flujo de salida
-                #
-                sys.stdout.write("{}\t{}\t{}\n".format(curkey, max,min))
-
-            curkey = key
-            max = val
-            min = val
-    sys.stdout.write("{}\t{}\t{}\n".format(curkey, max, min))
+        line = line.strip()
+        letra, fecha, numero = line.split("\t")
+        new_list = [elem for elem in line.split("\t")]
+        list_of_lists.append(new_list)
+    
+    for n in range(len(list_of_lists)):
+        list_of_lists[n][2]=int(list_of_lists[n][2])
+    
+    for data in sorted(list_of_lists,key = lambda x: (x[0],x[2])):
+        sys.stdout.write("{}   {}   {}\t\n".format(data[0], data[1],data[2]))
